@@ -218,3 +218,15 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+
+# Olist project: data, secrets, generated files
+.env
+data/
+olist/
+*.csv
+*.parquet
+*.pbix
+logs/
+target/
+dbt_packages/
