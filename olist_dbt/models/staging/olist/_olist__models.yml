@@ -1,0 +1,11 @@
+version: 2
+
+models:
+  - name: stg_olist__orders
+    description: "Staging đơn hàng Olist. Một dòng là một đơn (grain). Ép kiểu bằng SAFE_CAST, chưa có quy tắc nghiệp vụ."
+    columns:
+      - name: order_id
+        description: "Khóa của đơn hàng."
+        data_tests:
+          - unique
+          - not_null

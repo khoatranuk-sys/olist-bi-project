@@ -223,7 +223,7 @@ __marimo__/
 # Olist project: data, secrets, generated files
 .env
 data/
-olist/
+/olist/
 *.csv
 *.parquet
 *.pbix
