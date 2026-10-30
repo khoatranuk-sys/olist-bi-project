@@ -9,3 +9,88 @@ models:
         data_tests:
           - unique
           - not_null
+      - name: order_status
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['delivered', 'shipped', 'canceled', 'unavailable', 'invoiced', 'processing', 'created', 'approved']
+      - name: customer_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_olist__customers')
+                field: customer_id
+
+  - name: stg_olist__customers
+    description: "Một dòng một customer_id. Chỉ đổi tên cột."
+    columns:
+      - name: customer_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: stg_olist__sellers
+    description: "Một dòng một người bán. Chỉ đổi tên cột."
+    columns:
+      - name: seller_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: stg_olist__products
+    description: "Một dòng một sản phẩm. 610 sản phẩm không có category (NULL), giữ nguyên."
+    columns:
+      - name: product_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: stg_olist__product_category_translation
+    description: "Bảng dịch tên category sang tiếng Anh, 71 dòng."
+    columns:
+      - name: category_name
+        data_tests:
+          - unique
+          - not_null
+
+  - name: stg_olist__order_items
+    description: "Một dòng một mặt hàng trong một đơn (order_id + order_item_id). Ép kiểu bằng SAFE_CAST."
+    columns:
+      - name: order_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_olist__orders')
+                field: order_id
+      - name: product_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_olist__products')
+                field: product_id
+      - name: seller_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_olist__sellers')
+                field: seller_id
+
+  - name: stg_olist__order_payments
+    description: "Một dòng một lần thanh toán (order_id + payment_sequential)."
+    columns:
+      - name: order_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_olist__orders')
+                field: order_id
+
+  - name: stg_olist__order_reviews
+    description: "Một dòng một đánh giá. review_id có trùng, khóa duy nhất là cặp review_id + order_id."
+    columns:
+      - name: order_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_olist__orders')
+                field: order_id
